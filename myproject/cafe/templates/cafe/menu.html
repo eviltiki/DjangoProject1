@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Меню</title>
+</head>
+<body>
+    <h1>Меню</h1>
+
+    {% for category, dishes in dishes_by_category.items %}
+        <h2>{{ category }}</h2>
+        <ul>
+            {% for dish in dishes %}
+                <li>
+                    <strong>{{ dish.name }}</strong>: {{ dish.price }} руб.
+                    <p>{{ dish.description }}</p>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endfor %}
+</body>
+</html>
