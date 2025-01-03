@@ -12,5 +12,5 @@ urlpatterns = [
     path('about/', views.about, name='about'),
     path('add-dish/', views.add_dish, name='add_dish'),
     path('hello/', HelloWorldView.as_view(), name='hello'),
-    path('api/', include(router.urls)),
+    path('', include(router.urls)),
 ]

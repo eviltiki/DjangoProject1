@@ -26,7 +26,6 @@ SECRET_KEY = 'django-insecure-s190ye39rme7nlouv_s!ee#9^d1bf&q583y^a%0_a^p+(^+3v-
 DEBUG = True
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1']
-INSTALLED_APPS = []
 
 
 # Application definition
@@ -39,12 +38,17 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'cafe',
+    'accounts',
     'rest_framework',
-    'drf_spectacular'
+    'drf_spectacular',
+    'rest_framework_simplejwt',
 ]
 
 REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
 }
 
 MIDDLEWARE = [
