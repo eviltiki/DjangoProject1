@@ -33,14 +33,6 @@ def add_dish(request):
         form = DishForm()
     return render(request, 'cafe/add_dish.html', {'form': form})
 
-@api_view(['GET'])
-def hello_world(request):
-    return Response({"message": "Hello, World!"})
-
-class HelloWorldView(APIView):
-    def get(self, request):
-        return Response({"message": "Hello, World!"})
-
 class DishViewSet(ModelViewSet):
     queryset = Dish.objects.all()
     serializer_class = DishSerializer
