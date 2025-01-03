@@ -3,9 +3,11 @@ from django.shortcuts import render, redirect
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.viewsets import ModelViewSet
 
 from .forms import DishForm
 from .models import Dish
+from .serializers import DishSerializer
 
 
 # Create your views here.
@@ -39,3 +41,6 @@ class HelloWorldView(APIView):
     def get(self, request):
         return Response({"message": "Hello, World!"})
 
+class DishViewSet(ModelViewSet):
+    queryset = Dish.objects.all()
+    serializer_class = DishSerializer
