@@ -1,7 +1,7 @@
 from django.urls import path
 from rest_framework_simplejwt.views import TokenRefreshView
 
-from accounts.views import RegisterView, LoginView
+from apps.accounts.views import RegisterView, LoginView
 
 urlpatterns = [
     path('register/', RegisterView.as_view(), name='register'),

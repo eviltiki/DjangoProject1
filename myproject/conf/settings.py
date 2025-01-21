@@ -25,7 +25,34 @@ SECRET_KEY = 'django-insecure-s190ye39rme7nlouv_s!ee#9^d1bf&q583y^a%0_a^p+(^+3v-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOWED_HOSTS = ["*"]
+
+# cors
+CORS_ALLOW_METHODS = (
+    "DELETE",
+    "GET",
+    "OPTIONS",
+    "PATCH",
+    "POST",
+    "PUT",
+)
+
+CORS_ALLOW_HEADERS = (
+    "accept",
+    "authorization",
+    "content-type",
+    "user-agent",
+    "x-csrftoken",
+    "x-requested-with",
+)
+
+CORS_ORIGIN_ALLOW_ALL = True
+
+# CORS_ALLOWED_ORIGINS = [
+#     "localhost",
+# ]
+
+SECURE_CROSS_ORIGIN_OPENER_POLICY=None
 
 # Application definition
 
@@ -36,16 +63,17 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'cafe',
-    'accounts',
-    'chat',
+    'apps.cafe',
+    'apps.accounts',
+    'apps.chat',
     'rest_framework',
     'drf_spectacular',
     'rest_framework_simplejwt',
     'channels',
+    "corsheaders",
 ]
 
-ASGI_APPLICATION = 'myproject.asgi.application'
+ASGI_APPLICATION = 'conf.asgi.application'
 
 REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
@@ -57,6 +85,7 @@ REST_FRAMEWORK = {
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    "corsheaders.middleware.CorsMiddleware",
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -64,12 +93,12 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'myproject.urls'
+ROOT_URLCONF = 'conf.urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / "templates"],
+        'DIRS': [os.path.join(BASE_DIR, "apps"), "templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -82,7 +111,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'myproject.wsgi.application'
+WSGI_APPLICATION = 'conf.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
@@ -132,12 +161,12 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 # Путь, где будут собираться статические файлы для продакшн
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # Дополнительные каталоги для поиска статических файлов
-STATICFILES_DIRS = [
-    BASE_DIR / 'static',  # Путь к папке, где находятся ваши статические файлы
-]
+# STATICFILES_DIRS = [
+#     BASE_DIR / 'static',  # Путь к папке, где находятся ваши статические файлы
+# ]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field

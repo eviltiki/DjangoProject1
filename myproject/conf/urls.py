@@ -25,9 +25,9 @@ urlpatterns = [
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),  # Генерация схемы
     path('api/docs/swagger/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
     path('api/docs/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
-    path('api/accounts/', include('accounts.urls')),
-    path('api/cafe/', include('cafe.urls')),
-    path('', include('chat.urls')),
+    path('api/accounts/', include('apps.accounts.urls')),
+    path('api/cafe/', include('apps.cafe.urls')),
+    path('', include('apps.chat.urls')),
 ]
 
 if settings.DEBUG:

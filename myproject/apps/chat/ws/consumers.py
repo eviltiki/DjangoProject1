@@ -1,19 +1,26 @@
 import json
 from channels.generic.websocket import AsyncWebsocketConsumer
+from django.contrib.auth.models import User
+
 
 class ChatConsumer(AsyncWebsocketConsumer):
     async def connect(self):
-        # Логика для соединения
-        self.room_name = 'chat_room'
-        self.room_group_name = 'chat_%s' % self.room_name
+        user: User = self.scope['user']
 
-        # Присоединимся к группе (группы используются для мульти-клиентских чатов)
+        if user.is_anonymous:
+            await self.close(code=4001)  # Close for unauthenticated users
+            return
+
+        self.room_name = 'chat_room'
+        self.room_group_name = f"main_{self.room_name}"
+
         await self.channel_layer.group_add(
             self.room_group_name,
             self.channel_name
         )
-
         await self.accept()
+
+
 
     async def disconnect(self, close_code):
         # Логика для отключения
