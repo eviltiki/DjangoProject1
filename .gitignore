@@ -1,0 +1,11 @@
+*.pyc
+*.pyo
+
+__pycache__/
+
+*/migrations/__pycache__/
+
+myproject/accounts/__pycache__/*
+
+# Ignore Redis dump file
+*.rdb
