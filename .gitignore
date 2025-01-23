@@ -9,3 +9,5 @@ myproject/accounts/__pycache__/*
 
 # Ignore Redis dump file
 *.rdb
+
+.idea
