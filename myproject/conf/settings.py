@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 import os
+import environ
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -18,9 +19,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-s190ye39rme7nlouv_s!ee#9^d1bf&q583y^a%0_a^p+(^+3v-'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -54,8 +52,15 @@ CORS_ORIGIN_ALLOW_ALL = True
 
 SECURE_CROSS_ORIGIN_OPENER_POLICY=None
 
-# Application definition
+# Загружаем переменные
+env = environ.Env(DEBUG=(bool, False))
+environ.Env.read_env()
 
+# Настройки
+SECRET_KEY = env("SECRET_KEY", default="default-secret-key")
+DEBUG = env.bool("DEBUG", default=False)
+
+# Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -181,4 +186,27 @@ CHANNEL_LAYERS = {
             "hosts": [('127.0.0.1', 6380)],  # Адрес Redis
         },
     },
+}
+
+CELERY_BROKER_URL = 'redis://127.0.0.1:6380/0'
+CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6380/0'
+
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+
+# Настройки для MailSender
+EMAIL_BACKEND = "mailsender.backends.MailSenderBackend"  # Убедитесь, что в MailSender есть соответствующий бекенд
+
+# API ключ или конфигурация для подключения к MailSender
+MAILSENDER_API_KEY = "mlsn.c6bfc5cf92d8278ce76dce5471821b039e5621a82b2acdb613c4485e049bab7f"
+
+ADMIN_EMAIL = "dragonseg@mail.ru"
+
+# Настройки отправителя
+DEFAULT_FROM_EMAIL = "trial-3zxk54veneqljy6v.mlsender.net"  # Замените на ваш зарегистрированный email
+
+# Дополнительные настройки для API
+MAILSENDER_SETTINGS = {
+    'api_key': 'mlsn.c6bfc5cf92d8278ce76dce5471821b039e5621a82b2acdb613c4485e049bab7f',
+    'sender_email': 'trial-3zxk54veneqljy6v.mlsender.net',  # Email отправителя
 }
