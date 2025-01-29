@@ -6,7 +6,7 @@ from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from apps.accounts.serializers import RegisterSerializer, UserSerializer, LoginSerializer
-
+from apps.accounts.tasks import send_admin_notification
 
 # Create your views here.
 
@@ -18,6 +18,8 @@ class RegisterView(APIView):
         serializer = RegisterSerializer(data=request.data)
         if serializer.is_valid():
             user = serializer.save()
+
+            send_admin_notification.delay(user.username)
 
             refresh = RefreshToken.for_user(user)
 
